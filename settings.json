@@ -1,7 +1,5 @@
 {
     "css_folders": [],
     "css_files": [],
-    "auto_search": false,
-    "enabled": true,
-    "auto_refresh_interval": false // Set to an integer value for seconds
+    "auto_search": false
 }

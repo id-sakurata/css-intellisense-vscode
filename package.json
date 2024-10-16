@@ -2,17 +2,19 @@
 	"name": "css-intellisense",
 	"displayName": "CSS Intellisense",
 	"description": "A simple CSS Intellisense extension for VS Code",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"publisher": "id-sakurata",
 	"engines": {
 		"vscode": "^1.50.0"
 	},
+	"repository": "https://github.com/id-sakurata/css-intellisense-vscode",
 	"activationEvents": [
 		"onLanguage:html",
 		"onLanguage:css",
 		"onLanguage:php",
 		"onLanguage:vue"
 	],
+	"icon": "images/icon.png",
 	"main": "./src/extension.js",
 	"contributes": {
 		"commands": [
@@ -69,30 +71,20 @@
 				"type": "object",
 				"title": "CSS Intellisense Settings",
 				"properties": {
-						"css_folders": {
+						"cssIntellisense.css_folders": {
 								"type": "array",
 								"default": [],
 								"description": "List of CSS folders to be monitored."
 						},
-						"css_files": {
+						"cssIntellisense.css_files": {
 								"type": "array",
 								"default": [],
 								"description": "List of CSS files to be monitored."
 						},
-						"auto_search": {
+						"cssIntellisense.auto_search": {
 								"type": "boolean",
 								"default": false,
 								"description": "Enable automatic search for CSS classes in the workspace."
-						},
-						"enabled": {
-								"type": "boolean",
-								"default": true,
-								"description": "Enable or disable the CSS Intellisense extension."
-						},
-						"auto_refresh_interval": {
-								"type": "number",
-								"default": false,
-								"description": "Set to an integer value for seconds to auto-refresh the CSS class cache."
 						}
 				}
 		}
