@@ -1,0 +1,100 @@
+{
+	"name": "css-intellisense",
+	"displayName": "CSS Intellisense",
+	"description": "A simple CSS Intellisense extension for VS Code",
+	"version": "0.1.0",
+	"publisher": "id-sakurata",
+	"engines": {
+		"vscode": "^1.50.0"
+	},
+	"activationEvents": [
+		"onLanguage:html",
+		"onLanguage:css",
+		"onLanguage:php",
+		"onLanguage:vue"
+	],
+	"main": "./src/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "cssIntellisense.addFolder",
+				"title": "CSS Intellisense - Add CSS Folder"
+			},
+			{
+				"command": "cssIntellisense.addFile",
+				"title": "CSS Intellisense - Add CSS File"
+			},
+			{
+				"command": "cssIntellisense.refreshCache",
+				"title": "CSS Intellisense - Refresh Cache"
+			},
+			{
+				"command": "cssIntellisense.clearCache",
+				"title": "CSS Intellisense - Clear Cache"
+			}
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "cssIntellisense.addFolder",
+					"when": "explorerResourceIsFolder",
+					"group": "navigation"
+				},
+				{
+					"command": "cssIntellisense.addFile",
+					"when": "resourceLangId == 'css'",
+					"group": "navigation"
+				}
+			]
+		},
+		"languages": [
+			{
+				"id": "html",
+				"extensions": [".html", ".htm"]
+			},
+			{
+				"id": "php",
+				"extensions": [".php"]
+			},
+			{
+				"id": "vue",
+				"extensions": [".vue"]
+			},
+			{
+				"id": "css",
+				"extensions": [".css"]
+			}
+		],
+		"configuration": {
+				"type": "object",
+				"title": "CSS Intellisense Settings",
+				"properties": {
+						"css_folders": {
+								"type": "array",
+								"default": [],
+								"description": "List of CSS folders to be monitored."
+						},
+						"css_files": {
+								"type": "array",
+								"default": [],
+								"description": "List of CSS files to be monitored."
+						},
+						"auto_search": {
+								"type": "boolean",
+								"default": false,
+								"description": "Enable automatic search for CSS classes in the workspace."
+						},
+						"enabled": {
+								"type": "boolean",
+								"default": true,
+								"description": "Enable or disable the CSS Intellisense extension."
+						},
+						"auto_refresh_interval": {
+								"type": "number",
+								"default": false,
+								"description": "Set to an integer value for seconds to auto-refresh the CSS class cache."
+						}
+				}
+		}
+	}
+}
