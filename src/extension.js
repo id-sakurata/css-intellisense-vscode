@@ -67,33 +67,51 @@ function activate(context) {
         searchCssInWorkspace();
     }
 
-    // Register completion provider for HTML, PHP, and Vue
-    let completionProvider = vscode.languages.registerCompletionItemProvider(['html', 'php', 'vue'], {
-        provideCompletionItems(document, position) {
-            let completionItems = [];
-            let lineText = document.lineAt(position).text;
+    let classAttrPatterns = [];
 
-            // Cek apakah baris tersebut mengandung class=""
-            let classAttrPattern = /class=["']([^"']*)$/;
-            let match = classAttrPattern.exec(lineText.substring(0, position.character));
+    // Menambahkan pola untuk HTML (class)
+    classAttrPatterns.push(/class=["']([^"']*)$/);
 
+    // Menambahkan pola untuk JSX/React (className)
+    classAttrPatterns.push(/className=["']([^"']*)$/);
+
+    function getClassFromLine(lineText, position) {
+        for (let pattern of classAttrPatterns) {
+            let match = pattern.exec(lineText.substring(0, position.character));
             if (match) {
-                let existingClasses = match[1].split(/\s+/);
-                let prefix = existingClasses.pop() || '';
+                return match[1];  // Mengembalikan kelas yang ditemukan
+            }
+        }
+        return null;  // Jika tidak ada pola yang cocok
+    }
 
-                // Tambahkan item auto-complete dari cache CSS yang cocok dengan prefix
-                for (const [clsName, fileName] of Object.entries(cssClasses)) {
-                    if (clsName.startsWith(prefix)) {
-                        let completionItem = new vscode.CompletionItem(clsName, vscode.CompletionItemKind.Class);
-                        completionItem.detail = `From ${fileName}`;
-                        completionItems.push(completionItem);
+    // Register completion provider for HTML, PHP, Vue, JavaScriptReact, dan Emmet
+    let completionProvider = vscode.languages.registerCompletionItemProvider(
+        ['html', 'php', 'vue', 'javascriptreact'], {
+            provideCompletionItems(document, position) {
+                let completionItems = [];
+                let lineText = document.lineAt(position).text;
+                let match = getClassFromLine(lineText, position);
+
+                if (match) {
+                    let existingClasses = match.split(/\s+/);
+                    let prefix = existingClasses.pop() || '';
+
+                    // Tambahkan item auto-complete dari cache CSS yang cocok dengan prefix
+                    for (const [clsName, fileName] of Object.entries(cssClasses)) {
+                        if (clsName.startsWith(prefix)) {
+                            let completionItem = new vscode.CompletionItem(clsName, vscode.CompletionItemKind.Class);
+                            completionItem.detail = `From ${fileName}`;
+                            completionItems.push(completionItem);
+                        }
                     }
                 }
-            }
 
-            return completionItems;
-        }
-    }, '"', '\''); // Auto-complete akan dipicu ketika ada karakter kutip ganda atau tunggal
+                return completionItems;
+            }
+        },
+        '"', '\''
+    );
 
     context.subscriptions.push(completionProvider);
 
@@ -103,8 +121,8 @@ function activate(context) {
             cssFolders.push(folderPath);
         }
 
-        vscode.window.setStatusBarMessage(`CSS Intellisense - Start scanning folder: ${folderPath}`, 2000); // Tampilkan pesan "Start"
-        
+        vscode.window.setStatusBarMessage(`CSS Intellisense - Start scanning folder: ${folderPath}`, 2000);
+
         function scanFolder(folder) {
             fs.readdir(folder, { withFileTypes: true }, (err, files) => {
                 if (err) {
@@ -114,22 +132,19 @@ function activate(context) {
 
                 files.forEach(file => {
                     let filePath = path.join(folder, file.name);
-                    
+
                     if (file.isDirectory()) {
-                        // Rekursif jika ini adalah folder
-                        scanFolder(filePath);
+                        scanFolder(filePath);  // Rekursif jika ini adalah folder
                     } else if (file.name.endsWith('.css')) {
-                        // Pindai file CSS jika ditemukan
                         extractClasses(filePath);
                     }
                 });
             });
         }
 
-        // Mulai pemindaian folder rekursif
         scanFolder(folderPath);
 
-        vscode.window.setStatusBarMessage(`CSS Intellisense - Completed scanning folder: ${folderPath}`, 2000); // Tampilkan pesan "Complete"
+        vscode.window.setStatusBarMessage(`CSS Intellisense - Completed scanning folder: ${folderPath}`, 2000);
     }
 
     // Fungsi untuk menambahkan file CSS
@@ -138,9 +153,9 @@ function activate(context) {
             cssFiles.push(filePath);
         }
 
-        vscode.window.setStatusBarMessage(`CSS Intellisense - Adding file: ${filePath}`, 2000); // Tampilkan pesan "Start"
+        vscode.window.setStatusBarMessage(`CSS Intellisense - Adding file: ${filePath}`, 2000);
         extractClasses(filePath);
-        vscode.window.setStatusBarMessage(`CSS Intellisense - Completed adding file: ${filePath}`, 2000); // Tampilkan pesan "Complete"
+        vscode.window.setStatusBarMessage(`CSS Intellisense - Completed adding file: ${filePath}`, 2000);
     }
 
     // Fungsi untuk me-refresh cache CSS
@@ -166,19 +181,16 @@ function activate(context) {
                 vscode.window.showErrorMessage(`Error reading ${filePath}: ${err.message}`);
                 return;
             }
-            
+
             let classes = data.match(/\.[a-zA-Z0-9_-]+/g) || [];
             let fileName = path.basename(filePath);
 
             classes.forEach(cls => {
-                let className = cls.slice(1); // Remove dot (.)
+                let className = cls.slice(1);  // Menghapus tanda titik (.)
                 if (!cssClasses[className]) {
                     cssClasses[className] = fileName;
                 }
             });
-
-            // Tambahkan log untuk memeriksa kelas yang diekstrak
-            // console.log(`Extracted classes from ${filePath}:`, classes);
         });
     }
 
@@ -194,9 +206,9 @@ function activate(context) {
     // Fungsi untuk memuat pengaturan
     function loadSettings() {
         let config = vscode.workspace.getConfiguration('cssIntellisense');
-        cssFolders = config.get('css_folders', []); // Mendapatkan daftar folder CSS
-        cssFiles = config.get('css_files', []); // Mendapatkan daftar file CSS
-        autoSearch = config.get('auto_search', false); // Mengatur autoSearch
+        cssFolders = config.get('css_folders', []);  // Mendapatkan daftar folder CSS
+        cssFiles = config.get('css_files', []);  // Mendapatkan daftar file CSS
+        autoSearch = config.get('auto_search', false);  // Mengatur autoSearch
     }
 }
 

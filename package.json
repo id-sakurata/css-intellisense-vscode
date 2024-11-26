@@ -2,7 +2,7 @@
 	"name": "css-intellisense",
 	"displayName": "CSS Intellisense",
 	"description": "A simple CSS Intellisense extension for VS Code",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"publisher": "id-sakurata",
 	"engines": {
 		"vscode": "^1.50.0"
@@ -12,7 +12,8 @@
 		"onLanguage:html",
 		"onLanguage:css",
 		"onLanguage:php",
-		"onLanguage:vue"
+		"onLanguage:vue",
+		"onLanguage:javascriptreact"
 	],
 	"icon": "images/icon.png",
 	"main": "./src/extension.js",
@@ -52,41 +53,54 @@
 		"languages": [
 			{
 				"id": "html",
-				"extensions": [".html", ".htm"]
+				"extensions": [
+					".html",
+					".htm"
+				]
 			},
 			{
 				"id": "php",
-				"extensions": [".php"]
+				"extensions": [
+					".php"
+				]
 			},
 			{
 				"id": "vue",
-				"extensions": [".vue"]
+				"extensions": [
+					".vue"
+				]
 			},
 			{
 				"id": "css",
-				"extensions": [".css"]
+				"extensions": [
+					".css"
+				]
+			},
+			{
+				"id": "javascriptreact",
+				"extensions": [".jsx", ".tsx"]
 			}
 		],
 		"configuration": {
-				"type": "object",
-				"title": "CSS Intellisense Settings",
-				"properties": {
-						"cssIntellisense.css_folders": {
-								"type": "array",
-								"default": [],
-								"description": "List of CSS folders to be monitored."
-						},
-						"cssIntellisense.css_files": {
-								"type": "array",
-								"default": [],
-								"description": "List of CSS files to be monitored."
-						},
-						"cssIntellisense.auto_search": {
-								"type": "boolean",
-								"default": false,
-								"description": "Enable automatic search for CSS classes in the workspace."
-						}
+			"type": "object",
+			"title": "CSS Intellisense Settings",
+			"properties": {
+				"cssIntellisense.css_folders": {
+					"type": "array",
+					"default": [],
+					"description": "List of CSS folders to be monitored."
+				},
+				"cssIntellisense.css_files": {
+					"type": "array",
+					"default": [],
+					"description": "List of CSS files to be monitored."
+				},
+				"cssIntellisense.auto_search": {
+					"type": "boolean",
+					"default": false,
+					"description": "Enable automatic search for CSS classes in the workspace."
 				}
+			}
 		}
 	}
 }
