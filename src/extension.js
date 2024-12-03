@@ -87,7 +87,7 @@ function activate(context) {
 
     // Register completion provider for HTML, PHP, Vue, JavaScriptReact, dan Emmet
     let completionProvider = vscode.languages.registerCompletionItemProvider(
-        ['html', 'php', 'vue', 'javascriptreact'], {
+        ['html', 'php', 'vue', 'javascriptreact', 'blade'], {
             provideCompletionItems(document, position) {
                 let completionItems = [];
                 let lineText = document.lineAt(position).text;
