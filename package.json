@@ -1,19 +1,21 @@
 {
 	"name": "css-intellisense",
 	"displayName": "CSS Intellisense",
-	"description": "A simple CSS Intellisense extension for VS Code",
-	"version": "0.3.0",
+	"description": "A simple css auto complete helper extension for VS Code",
+	"version": "1.0.1",
 	"publisher": "id-sakurata",
 	"engines": {
 		"vscode": "^1.50.0"
 	},
 	"repository": "https://github.com/id-sakurata/css-intellisense-vscode",
+	"categories": ["Autocomplete", "CSS"],
 	"activationEvents": [
 		"onLanguage:html",
 		"onLanguage:css",
 		"onLanguage:php",
 		"onLanguage:vue",
-		"onLanguage:javascriptreact"
+		"onLanguage:javascriptreact",
+		"onLanguage:blade"
 	],
 	"icon": "images/icon.png",
 	"main": "./src/extension.js",
@@ -79,6 +81,10 @@
 			{
 				"id": "javascriptreact",
 				"extensions": [".jsx", ".tsx"]
+			},
+			{
+				"id": "blade",
+				"extensions": ["blade.php"]
 			}
 		],
 		"configuration": {
