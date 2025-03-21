@@ -6,6 +6,7 @@ let cssClasses = {};
 let cssFolders = [];
 let cssFiles = [];
 let autoSearch = false;
+let supportedLanguages = [];
 
 function activate(context) {
     vscode.workspace.onDidChangeConfiguration(() => {
@@ -85,9 +86,9 @@ function activate(context) {
         return null;  // Jika tidak ada pola yang cocok
     }
 
-    // Register completion provider for HTML, PHP, Vue, JavaScriptReact, dan Emmet
+    // Register completion provider for dynamically fetched languages
     let completionProvider = vscode.languages.registerCompletionItemProvider(
-        ['html', 'php', 'vue', 'javascriptreact', 'blade'], {
+        supportedLanguages, {
             provideCompletionItems(document, position) {
                 let completionItems = [];
                 let lineText = document.lineAt(position).text;
@@ -209,6 +210,10 @@ function activate(context) {
         cssFolders = config.get('css_folders', []);  // Mendapatkan daftar folder CSS
         cssFiles = config.get('css_files', []);  // Mendapatkan daftar file CSS
         autoSearch = config.get('auto_search', false);  // Mengatur autoSearch
+        supportedLanguages = config.get('supported_languages', [
+            'html', 'php', 'vue', 'javascriptreact', 'blade', 
+            'edge', 'hbs', 'handlebars', 'ejs', 'twig', 'nunjucks'
+        ]); // Mendapatkan bahasa yang didukung
     }
 }
 

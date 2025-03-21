@@ -1,5 +1,9 @@
 {
     "css_folders": [],
     "css_files": [],
-    "auto_search": false
+    "auto_search": false,
+    "supported_languages": [
+        "html", "php", "vue", "javascriptreact", "blade", 
+        "edge", "hbs", "handlebars", "ejs", "twig", "nunjucks"
+    ]
 }

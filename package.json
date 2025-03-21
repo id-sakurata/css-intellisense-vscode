@@ -1,21 +1,27 @@
 {
-	"name": "css-intellisense",
-	"displayName": "CSS Intellisense",
+	"name": "css-intellisense-autocomplete-class-helper",
+	"displayName": "CSS Intellisense - Autocomplete Class Helper",
 	"description": "A simple css auto complete helper extension for VS Code",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"publisher": "id-sakurata",
 	"engines": {
 		"vscode": "^1.50.0"
 	},
 	"repository": "https://github.com/id-sakurata/css-intellisense-vscode",
-	"categories": ["Autocomplete", "CSS"],
+	"categories": ["Other"],
 	"activationEvents": [
 		"onLanguage:html",
 		"onLanguage:css",
 		"onLanguage:php",
 		"onLanguage:vue",
 		"onLanguage:javascriptreact",
-		"onLanguage:blade"
+		"onLanguage:blade",
+		"onLanguage:edge",
+		"onLanguage:hbs",
+		"onLanguage:handlebars",
+		"onLanguage:ejs",
+		"onLanguage:twig",
+		"onLanguage:nunjucks"
 	],
 	"icon": "images/icon.png",
 	"main": "./src/extension.js",
@@ -85,6 +91,30 @@
 			{
 				"id": "blade",
 				"extensions": ["blade.php"]
+			},
+			{
+				"id": "edge",
+				"extensions": [".edge"]
+			},
+			{
+				"id": "hbs",
+				"extensions": [".hbs"]
+			},
+			{
+				"id": "handlebars",
+				"extensions": [".handlebars"]
+			},
+			{
+				"id": "ejs",
+				"extensions": [".ejs"]
+			},
+			{
+				"id": "twig",
+				"extensions": [".twig"]
+			},
+			{
+				"id": "nunjucks",
+				"extensions": [".njk", ".nunjucks"]
 			}
 		],
 		"configuration": {
@@ -105,6 +135,14 @@
 					"type": "boolean",
 					"default": false,
 					"description": "Enable automatic search for CSS classes in the workspace."
+				},
+				"cssIntellisense.supported_languages": {
+					"type": "array",
+					"default": [
+						"html", "php", "vue", "javascriptreact", "blade", 
+						"edge", "hbs", "handlebars", "ejs", "twig", "nunjucks"
+					],
+					"description": "List of languages where CSS class autocomplete is enabled."
 				}
 			}
 		}
